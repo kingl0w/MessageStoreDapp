@@ -1,10 +1,9 @@
 const hre = require('hardhat');
 
 async function main() {
-  const Store = await hre.ethers.deployContract('store');
-  const store = await Store.deploy();
+  const store = await hre.ethers.deployContract('store'); //fetching bytecode and ABI
 
-  await store.waitForDeployment();
+  await store.waitForDeployment(); //deploying the smart contract
 
   console.log('Deployed contract address:', `${store.address}`);
 }
