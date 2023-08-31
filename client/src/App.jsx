@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     const template = async () => {
-      const contractAddress = '';
+      const contractAddress = '0xEe1579B23FfD3da9B03eD260f8adbbf2FC56A4Dc';
       const contractABI = '';
       //metamask logic
 
