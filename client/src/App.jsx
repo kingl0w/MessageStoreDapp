@@ -13,54 +13,54 @@ function App() {
   });
 
   const [account, setAccount] = useState('Not Connected');
-
   useEffect(() => {
     const template = async () => {
       const contractAddress = '0xEe1579B23FfD3da9B03eD260f8adbbf2FC56A4Dc';
       const contractABI = abi.abi;
       //metamask logic
 
-      const { ethereum } = window;
+      try {
+        const { ethereum } = window;
 
-      const account = await ethereum.request({
-        method: 'eth_requestAccounts',
-      });
+        const account = await ethereum.request({
+          method: 'eth_requestAccounts',
+        });
 
-      window.ethereum.on('accountsChanged', () => {
-        window.location.reload();
-      });
+        window.ethereum.on('accountsChanged', () => {
+          window.location.reload();
+        });
+        setAccount(account);
+        const provider = new ethers.providers.Web3Provider(ethereum); //read the blockchain
+        const signer = provider.getSigner(); //write the blockchain
 
-      setAccount(account);
-      const provider = new ethers.providers.Web3Provider(ethereum); //read the blockchain
-      const signer = provider.getSigner(); //write the blockchain
+        const contract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
 
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer
-      );
+        console.log(contract);
 
-      console.log(contract);
-
-      setState({ provider, signer, contract });
+        setState({ provider, signer, contract });
+      } catch (error) {
+        console.log(error);
+      }
     };
     template();
   }, []);
 
   return (
-    <>
-      <div className='App'>
-        <h1>MessageStoreApp</h1>
-        <img
-          src={Logo}
-          alt='logo'
-          id='logo'
-        />
-        <p>Connected Account: {account[0]}</p>
-        <Buy state={state}></Buy>
-        {/* <Memos state={state}></Memos> */}
-      </div>
-    </>
+    <div className='App'>
+      <h1>MessageStoreApp</h1>
+      <img
+        src={Logo}
+        alt='logo'
+        id='logo'
+      />
+      <p>Connected Account: {account[0]}</p>
+      <Buy state={state}></Buy>
+      {/* <Memos state={state}></Memos> */}
+    </div>
   );
 }
 
