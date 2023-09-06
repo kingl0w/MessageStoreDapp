@@ -29,7 +29,8 @@ function App() {
         window.ethereum.on('accountsChanged', () => {
           window.location.reload();
         });
-        setAccount(account);
+        setAccount(account[0]);
+
         const provider = new ethers.providers.Web3Provider(ethereum); //read the blockchain
         const signer = provider.getSigner(); //write the blockchain
 
